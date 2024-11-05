@@ -1,0 +1,14 @@
+<Window
+    Height="450"
+    Title="Avalonia.RichTextKit.Sample"
+    Width="800"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d"
+    x:Class="Avalonia.RichTextKit.Sample.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:ava="using:Avalonia.RichTextKit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ava:RichTextBox />
+</Window>

@@ -1,0 +1,16 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:controls="using:Avalonia.RichTextKit.Editing"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <controls:TextArea />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|TextArea">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentControl x:Name="PART_ContentControl" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
