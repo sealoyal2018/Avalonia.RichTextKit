@@ -1,10 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Metadata;
-using Avalonia.Controls.Primitives;
-using Avalonia.RichTextKit.Editing;
-
-namespace Avalonia.RichTextKit;
+﻿namespace Avalonia.RichTextKit;
 
 [TemplatePart(Name= ContentControlTemplateName, IsRequired = true, Type = typeof(ContentControl))]
 public class RichTextBox : TemplatedControl

@@ -11,6 +11,7 @@ public class DomBlock : IEnumerable<DomInline>
     
     internal DomDocument Document { get; init; }
     internal IReadOnlyList<DomLine> Lines => _lines;
+    internal IReadOnlyList<DomInline> Inlines => _inlines;
     
     public double Left { get; set; }
     public double Top { get; set; }
@@ -35,12 +36,30 @@ public class DomBlock : IEnumerable<DomInline>
             {
                 _lines.Add(newLine);
                 newLine = new DomLine(this);
-                newLine.AddInline(inline);
             }
+            newLine.AddInline(inline);
         }
         if(newLine is not null)
             _lines.Add(newLine);
     }
+
+
+    internal void InsertRange(int index, ICollection<DomInline> newInlines)
+    {
+        if (_inlines.Count < index)
+            throw new IndexOutOfRangeException();
+
+        if(_inlines.Count <= 0)
+        {
+            _inlines.AddRange(newInlines);
+        }
+        else
+        {
+            _inlines.InsertRange(index, newInlines);
+        }
+        Invalidate();
+    }
+
 
     #region IEnumerator
     
@@ -59,6 +78,74 @@ public class DomBlock : IEnumerable<DomInline>
     
     #endregion
     
+    internal string ToJson()
+    {
+        DomInline? prevInline = null;
+        foreach(var inline in _inlines)
+        {
+            if(inline is RegularTextInline regularTextInline)
+            {
+                if(prevInline is RegularTextInline)
+                {
+                    if(prevInline.StyleIndex == regularTextInline.StyleIndex)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else if(inline is SpaceInline spaceInline)
+            {
+                if (prevInline is SpaceInline)
+                {
+                    if (spaceInline.StyleIndex == prevInline.StyleIndex)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else if(inline is TabInline tabInline)
+            {
+                if (prevInline is SpaceInline)
+                {
+                    if (prevInline.StyleIndex == tabInline.StyleIndex)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else if(inline is LineBreakInline lineBreakInline)
+            {
+                if (prevInline is LineBreakInline)
+                {
+                    if (prevInline.StyleIndex == lineBreakInline.StyleIndex)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            prevInline = inline;
+        }
+        return "";
+    }
+
+
     internal record DomLine(DomBlock block) : IEnumerable<DomInline>
     {
         private readonly List<DomInline> _inlines = new();

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Media;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Avalonia.RichTextKit.Models.Inlines;
 
@@ -22,7 +23,6 @@ internal class RegularTextInline : DomInline
 
 	public sealed override void Invalidate()
 	{		
-		var style = _document.GetStyle(0);
-		_formattedText = new FormattedText(_text, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brush.Parse(style.ForegroundColor));
-	}
+		_formattedText = CreateFormattedText(_document, _text);
+    }
 }
