@@ -150,7 +150,9 @@ public class DomBlock : IEnumerable<DomInline>
     {
         private readonly List<DomInline> _inlines = new();
     
-        public double LineHeight { get; private set; }
+        public double LineHeight => Baseline * block.Document.LineSpacing;
+        
+        public double Baseline { get; private set; }
         
         public double LineWidth { get; private set; }
         
@@ -160,7 +162,7 @@ public class DomBlock : IEnumerable<DomInline>
                 throw new OutOfMemoryException();
             _inlines.Add(inline);
             LineWidth += (inline.Width * block.Document.WordSpacing);
-            LineHeight = Math.Max(LineHeight, inline.Height * block.Document.LineSpacing);
+            Baseline = Math.Max(Baseline, inline.Height);
         }
 
         public IEnumerator<DomInline> GetEnumerator()

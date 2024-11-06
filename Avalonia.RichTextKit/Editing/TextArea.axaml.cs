@@ -33,6 +33,7 @@ public class TextArea : TemplatedControl
                 {
                   "Bold": false,
                   "Underline": false,
+                  "FontSize": 16,
                   "Italic": false,
                   "ForegroundColor": "#313131",
                   "BackgroundColor": "#F1F1F1"
@@ -40,13 +41,15 @@ public class TextArea : TemplatedControl
                 {
                   "Bold": true,
                   "Underline": false,
-                  "Italic": true,
+                  "Italic": false,
+                  "FontSize": 24,
                   "ForegroundColor": "#F76AA5",
                   "BackgroundColor": "#F1F1F1"
                 },
                 {
                   "Bold": false,
                   "Underline": false,
+                  "FontSize": 12,
                   "Italic": true,
                   "ForegroundColor": "#FF2E0F",
                   "BackgroundColor": "#F1F1F1"

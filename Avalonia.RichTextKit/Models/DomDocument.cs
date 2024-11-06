@@ -59,10 +59,11 @@ public class DomDocument
         _styles.Clear();
         _styles.Add(new TextStyle
         {
-            BackgroundColor = "",
+            BackgroundColor = "#F1F1F1",
             Bold = false,
-            ForegroundColor = "",
+            ForegroundColor = "#313131",
             Italic = false,
+            FontSize = 16,
             Underline = false,
         });
         _blocks.Clear();

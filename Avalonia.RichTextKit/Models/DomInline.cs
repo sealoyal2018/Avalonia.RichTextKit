@@ -21,9 +21,8 @@ public abstract class DomInline
 
     protected virtual FormattedText CreateFormattedText(DomDocument domDocument, string text)
     {
-
         var style = domDocument.GetStyle(StyleIndex);
-        var formattedText = new FormattedText(text, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, domDocument.FontSize, Brush.Parse(style.ForegroundColor));
+        var formattedText = new FormattedText(text, System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, style.FontSize, Brush.Parse(style.ForegroundColor));
         if (style.Italic)
             formattedText.SetFontStyle(FontStyle.Italic);
 
@@ -38,7 +37,8 @@ public abstract class DomInline
 
 public readonly struct TextStyle
 {
-    public bool Bold { get; init; }
+    public double FontSize { get; init; }
+    public bool Bold { get; init; } 
     public bool Italic { get; init; }
     public bool Underline { get; init; }
     public string ForegroundColor { get; init; }
