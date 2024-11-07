@@ -19,4 +19,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Avalonia.RichTextKit\Avalonia.RichTextKit.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Assets\doc.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

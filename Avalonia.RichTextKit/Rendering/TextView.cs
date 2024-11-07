@@ -4,28 +4,28 @@ using Avalonia.RichTextKit.Models;
 
 namespace Avalonia.RichTextKit.Rendering;
 
-public class TextView: Control
+public class TextView(Caret caret) : Control
 {
     private readonly List<VisualTextBlock> textBlocks = [];
 
-    private static readonly StyledProperty<DomDocument> DomcumentProperty;
-    public DomDocument Domcument
+    private static readonly StyledProperty<DomDocument> DomDocumentProperty;
+    public DomDocument DomDocument
     {
-        get => GetValue(DomcumentProperty);
-        set => SetValue(DomcumentProperty, value);
+        get => GetValue(DomDocumentProperty);
+        set => SetValue(DomDocumentProperty, value);
     }
 
     static TextView()
     {
-        DomcumentProperty = AvaloniaProperty.Register<TextView, DomDocument>(nameof(DomDocument), new DomDocument());
-        AffectsMeasure<TextView>(DomcumentProperty);
+        DomDocumentProperty = AvaloniaProperty.Register<TextView, DomDocument>(nameof(DomDocument), new DomDocument());
+        AffectsMeasure<TextView>(DomDocumentProperty);
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         this.VisualChildren.Clear();
         var height = 0d;
-        foreach (var block in this.Domcument.Blocks)
+        foreach (var block in this.DomDocument.Blocks)
         {
             if (height > availableSize.Height)
                 break;
@@ -36,8 +36,9 @@ public class TextView: Control
             this.VisualChildren.Add(newBlock);
             height += block.Height;
         }
+        VisualChildren.Add(caret);
 
-        return new Size(this.Domcument.Width, height);
+        return new Size(this.DomDocument.Width, height);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -52,7 +53,6 @@ public class TextView: Control
 
         return base.ArrangeOverride(finalSize);
     }
-
 
     public override void Render(DrawingContext context)
     {
