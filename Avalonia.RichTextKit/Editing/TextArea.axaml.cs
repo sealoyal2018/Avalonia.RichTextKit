@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using Avalonia.RichTextKit.Streams;
 
 namespace Avalonia.RichTextKit.Editing;
 
@@ -9,7 +10,7 @@ public class TextArea : TemplatedControl
 	private ContentControl? contentControl;
 	private readonly TextView _textView;
 	private readonly DomDocument _document;
-	private readonly Caret _caret;
+	private readonly CaretService _caretService;
 
 	static TextArea()
 	{
@@ -18,10 +19,19 @@ public class TextArea : TemplatedControl
 	
 	public TextArea()
 	{
-		_caret = new Caret();
-		_textView = new TextView(_caret);
 		_document = new DomDocument();
+		_caretService = new(_document);
+		_textView = new TextView(_document, _caretService.Caret);
 	}
+
+
+	protected override void OnPointerReleased(PointerReleasedEventArgs e)
+	{
+		base.OnPointerReleased(e);
+		var currentPoint = e.GetCurrentPoint(this);
+		var pos = currentPoint.Position;
+	}
+
 
 	protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
 	{
@@ -38,20 +48,18 @@ public class TextArea : TemplatedControl
 	protected override void OnGotFocus(GotFocusEventArgs e)
 	{
 		base.OnGotFocus(e);
-		_caret.Show();
 	}
 
 	protected override void OnLostFocus(RoutedEventArgs e)
 	{
 		base.OnLostFocus(e);
-		_caret.Hide();
 	}
 
 	protected override void OnLoaded(RoutedEventArgs e)
 	{
 		var json = File.ReadAllText("./Assets/doc.json");
-		var doc = new DomDocument();
-		doc.LoadFromJson(json);
-		_textView.DomDocument = doc;
+		var jsonFormatter = new JsonDocumentFormatter();
+		jsonFormatter.Load(_document, json);
+		_document.RaiseDocumentChanged();
 	}
 }

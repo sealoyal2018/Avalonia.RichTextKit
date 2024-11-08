@@ -1,31 +1,47 @@
 ﻿using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.RichTextKit.Models;
 
 namespace Avalonia.RichTextKit.Rendering;
 
-public class TextView(Caret caret) : Control
+internal class TextView(DomDocument document, CaretService.CaretView caret) : Control
 {
     private readonly List<VisualTextBlock> textBlocks = [];
 
-    private static readonly StyledProperty<DomDocument> DomDocumentProperty;
-    public DomDocument DomDocument
+    protected override void OnAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        get => GetValue(DomDocumentProperty);
-        set => SetValue(DomDocumentProperty, value);
+        base.OnAttachedToLogicalTree(e);
+        if(document is not null)
+        {
+            document.DocumentChanged -= DocumentOnDocumentChanged;
+            document.DocumentChanged += DocumentOnDocumentChanged;
+        }
     }
 
-    static TextView()
+    protected override void OnDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e)
     {
-        DomDocumentProperty = AvaloniaProperty.Register<TextView, DomDocument>(nameof(DomDocument), new DomDocument());
-        AffectsMeasure<TextView>(DomDocumentProperty);
+        if(document is not null)
+        {
+            document.DocumentChanged -= DocumentOnDocumentChanged;
+        }
+        base.OnDetachedFromLogicalTree(e);
+    }
+
+    private void DocumentOnDocumentChanged(DomDocument domDocument)
+    {
+        this.InvalidateMeasure();
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         this.VisualChildren.Clear();
         var height = 0d;
-        foreach (var block in this.DomDocument.Blocks)
+        if (document is null)
+        {
+            return base.MeasureOverride(availableSize);
+        }
+        foreach (var block in document.Blocks)
         {
             if (height > availableSize.Height)
                 break;
@@ -38,7 +54,7 @@ public class TextView(Caret caret) : Control
         }
         VisualChildren.Add(caret);
 
-        return new Size(this.DomDocument.Width, height);
+        return new Size(document.Width, height);
     }
 
     protected override Size ArrangeOverride(Size finalSize)

@@ -49,7 +49,7 @@
 
     <DockPanel LastChildFill="True">
         <Border DockPanel.Dock="Top" Padding="4">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox IsChecked="False" Theme="{StaticResource ToolButton}">
                     <PathIcon
                         Data="{StaticResource BoldGeometry}"
