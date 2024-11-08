@@ -165,6 +165,12 @@ public class DomBlock : IEnumerable<DomInline>
             Baseline = Math.Max(Baseline, inline.Height);
         }
 
+        public Point GetCursorCoordsAt(double offset)
+        {
+            throw new NotImplementedException();
+        }
+        
+
         public IEnumerator<DomInline> GetEnumerator()
         {
             foreach (var inline in _inlines)

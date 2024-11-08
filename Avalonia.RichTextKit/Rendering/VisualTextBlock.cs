@@ -6,8 +6,6 @@ namespace Avalonia.RichTextKit.Rendering;
 
 public class VisualTextBlock(DomBlock domBlock): Visual
 {
-	public DomBlock DomBlock => domBlock;
-
     public override void Render(DrawingContext dc)
 	{
 		var x = 0d;
